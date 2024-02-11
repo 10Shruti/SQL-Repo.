@@ -1,0 +1,51 @@
+/*What are the Top 25 schools (.edu domains)? */
+SELECT * FROM USERS
+WHERE email_domain like "%.edu" 
+limit 25 ;
+
+/*How many .edu learners are located in New York?*/
+SELECT count(*) FROM users
+where city="New York" AND email_domain
+ LIKE "%.edu";
+
+
+/*The mobile_app column contains either mobile-user or NULL. How many of these Codecademy learners are using the mobile app?*/
+SELECT count(*) FROM users
+Where mobile_app = "mobile-user";
+
+
+
+/*SQLite comes with a strftime() function - a very powerful function that allows you to return a formatted date.It takes two arguments:*/
+strftime(format, column)
+Let’s test this function out:*/
+SELECT sign_up_at, strftime("%S", sign_up_at) as SEC FROM USERS;
+
+
+/*Join the two tables using JOIN and then see what you can dig out of the data!*/
+SELECT * from users join progress on 
+users.user_id=progress.user_id; 
+
+
+/*Do different schools (.edu domains) prefer different courses?*/
+SELECT u.email_domain,p.learn_cpp,p.learn_sql,p.learn_html,p.learn_javascript,p.learn_java 
+FROM  users u 
+LEFT JOIN    progress p 
+on u.user_id = p.user_id 
+group by  1 
+ORDER BY  1 ASC;
+
+/*What courses are the New Yorkers students taking?*/
+SELECT u.city, u.email_domain, p.learn_cpp, p.learn_sql, p.learn_html, p.learn_javascript, p.learn_java
+FROM users u
+LEFT JOIN progress p
+ON u.user_id = p.user_id
+where city ="New York";
+
+
+/*What courses are the Chicago students taking?*/
+SELECT u.city, u.email_domain, p.learn_cpp, p.learn_sql, p.learn_html, p.learn_javascript, p.learn_java
+FROM users u
+LEFT JOIN progress p
+ON u.user_id = p.user_id
+where city ="Chicago";
+
